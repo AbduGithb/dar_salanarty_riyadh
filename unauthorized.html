@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>رفض الوصول - دار أبناء سلنارتي</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1e3a6f 0%, #2c5aa0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Cairo", sans-serif;
+      }
+
+      .unauthorized-container {
+        max-width: 600px;
+        width: 90%;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .error-icon {
+        font-size: 80px;
+        color: #dc3545;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: #dc3545;
+        margin: 0 0 20px 0;
+      }
+
+      p {
+        color: #333;
+        line-height: 1.6;
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        margin: 10px;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2c5aa0, #1e3a6f);
+        color: white;
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="unauthorized-container">
+      <div class="error-icon">
+        <i class="fas fa-ban"></i>
+      </div>
+
+      <h1>⛔ ليس لديك صلاحية الوصول</h1>
+
+      <p>
+        عفواً، ليس لديك الصلاحيات الكافية للوصول إلى هذه الصفحة.
+        <br />
+        يرجى التواصل مع مدير النظام للحصول على الصلاحيات المناسبة.
+      </p>
+
+      <div>
+        <a href="index.html" class="btn btn-primary">
+          <i class="fas fa-home"></i> العودة للرئيسية
+        </a>
+
+        <a href="login.html" class="btn btn-secondary">
+          <i class="fas fa-sign-in-alt"></i> تسجيل الدخول بحساب آخر
+        </a>
+      </div>
+
+      <p style="margin-top: 30px; color: #666; font-size: 14px">
+        <i class="fas fa-info-circle"></i>
+        للاستفسار: salanarty@gmail.com | +966 50 219 1635
+      </p>
+    </div>
+  </body>
+</html>

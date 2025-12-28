@@ -1,0 +1,316 @@
+/* تنسيقات خاصة بصفحة سداد المتأخرات */
+
+/* قسم البحث */
+.search-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.search-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #2c5aa0;
+}
+
+.search-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input-container input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* نتائج البحث */
+.search-results {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.result-info h4 {
+    margin: 0 0 10px 0;
+    color: #2c5aa0;
+}
+
+.result-info p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.select-member-btn {
+    padding: 8px 20px;
+    font-size: 14px;
+}
+
+/* قسم السداد */
+.payment-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.member-info-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-right: 4px solid #2c5aa0;
+}
+
+.member-info-card h3 {
+    color: #2c5aa0;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.member-details p {
+    margin: 8px 0;
+    color: #555;
+}
+
+.member-details strong {
+    color: #333;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* الاشتراكات المتأخرة */
+.unpaid-subscriptions {
+    margin-bottom: 25px;
+}
+
+.unpaid-subscriptions h3 {
+    color: #2c5aa0;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.subscription-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+}
+
+.subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.subscription-header h4 {
+    margin: 0;
+    color: #2c5aa0;
+}
+
+.subscription-type {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.subscription-type.normal {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.subscription-type.new {
+    background-color: #28a745;
+    color: white;
+}
+
+.subscription-details {
+    margin-bottom: 15px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 5px 0;
+}
+
+.detail-label {
+    color: #666;
+}
+
+.detail-value {
+    font-weight: bold;
+}
+
+.detail-value.remaining {
+    color: #dc3545;
+}
+
+/* حقل إدخال السداد */
+.payment-input {
+    margin-top: 15px;
+}
+
+.payment-input label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-with-suffix {
+    display: flex;
+    align-items: center;
+}
+
+.payment-amount-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    text-align: left;
+    direction: ltr;
+    font-size: 16px;
+}
+
+.input-suffix {
+    background-color: #eee;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+/* ملخص المدفوعات */
+.payment-summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #28a745;
+}
+
+.payment-summary h3 {
+    color: #28a745;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.summary-details {
+    margin-bottom: 20px;
+}
+
+.summary-details p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.summary-details strong {
+    color: #333;
+    min-width: 150px;
+    display: inline-block;
+}
+
+.summary-details input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.payment-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* حالة عدم وجود اشتراكات */
+.no-subscriptions {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.no-subscriptions i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: #28a745;
+}
+
+.no-subscriptions p {
+    font-size: 18px;
+}
+
+/* تنسيقات خاصة للتاريخ */
+input[type="date"] {
+    font-family: inherit;
+}
+
+/* التجاوب مع الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .search-result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .select-member-btn {
+        width: 100%;
+    }
+    
+    .subscription-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .payment-actions {
+        flex-direction: column;
+    }
+    
+    .payment-actions button {
+        width: 100%;
+    }
+}

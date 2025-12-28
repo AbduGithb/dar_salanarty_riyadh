@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دار أبناء سلنارتي - التقارير المالية</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/reports.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- مكتبات الرسوم البيانية والتصدير -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- مكتبة SheetJS لتصدير Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- مكتبة JSZip لتصدير ملفات ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- مكتبة FileSaver لتنزيل الملفات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div>
+            <h1>دار أبناء سلنارتي بالرياض</h1>
+            <p class="subtitle">
+              نظام التقارير المالية - تحليل البيانات والإحصائيات
+            </p>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="./index.html"><i class="fas fa-home"></i> الرئيسية</a>
+          <a href="./add_data.html"
+            ><i class="fas fa-user-plus"></i> إضافة عضو جديد</a
+          >
+          <a href="./members.html"
+            ><i class="fas fa-users"></i> قائمة الأعضاء</a
+          >
+          <a href="./reports.html" class="active"
+            ><i class="fas fa-chart-bar"></i> التقارير</a
+          >
+          <a href="./committee.html"
+            ><i class="fas fa-users-cog"></i> لجنة الإدارة</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message"></div>
+
+      <!-- شريط التقدم للتصدير -->
+      <div id="exportProgress" class="export-progress">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <strong id="exportProgressText">جاري تحضير الملف...</strong>
+          <span id="exportProgressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="exportProgressFill" class="progress-fill"></div>
+        </div>
+        <div id="exportDetails" style="font-size: 14px; color: #666"></div>
+      </div>
+
+      <section class="controls-section">
+        <h2 class="section-title">
+          <i class="fas fa-sliders-h"></i> إعدادات التقرير
+        </h2>
+
+        <div class="instructions">
+          <p>
+            <strong>تعليمات:</strong> حدد نوع التقرير والفترة الزمنية، ثم انقر
+            على "توليد التقرير" لعرض البيانات.
+          </p>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control-group">
+            <h3><i class="fas fa-calendar-alt"></i> نوع التقرير</h3>
+            <div class="radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="reportTypeYearly"
+                  name="reportType"
+                  value="yearly"
+                  checked
+                />
+                <label for="reportTypeYearly">سنوي</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="reportTypeMonthly"
+                  name="reportType"
+                  value="monthly"
+                />
+                <label for="reportTypeMonthly">شهري</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="reportTypeWeekly"
+                  name="reportType"
+                  value="weekly"
+                />
+                <label for="reportTypeWeekly">أسبوعي</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="reportTypeCustom"
+                  name="reportType"
+                  value="custom"
+                />
+                <label for="reportTypeCustom">مخصص</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3><i class="fas fa-filter"></i> عوامل التصفية</h3>
+            <div class="date-inputs">
+              <div class="date-input">
+                <label for="startDate">من تاريخ</label>
+                <input type="date" id="startDate" />
+              </div>
+              <div class="date-input">
+                <label for="endDate">إلى تاريخ</label>
+                <input type="date" id="endDate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3><i class="fas fa-cogs"></i> خيارات إضافية</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <div class="radio-item">
+                <input type="checkbox" id="showCharts" checked />
+                <label for="showCharts">عرض الرسوم البيانية</label>
+              </div>
+              <div class="radio-item">
+                <input type="checkbox" id="showTables" checked />
+                <label for="showTables">عرض الجداول التفصيلية</label>
+              </div>
+              <div class="radio-item">
+                <input type="checkbox" id="includeSettlements" />
+                <label for="includeSettlements">تضمين عمليات التسوية</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button type="button" id="generateReportBtn" class="btn-primary">
+            <i class="fas fa-chart-bar"></i> توليد التقرير
+          </button>
+
+          <button type="button" id="quickReportBtn" class="btn-success">
+            <i class="fas fa-bolt"></i> تقرير سريع لهذا الشهر
+          </button>
+
+          <button type="button" id="resetFiltersBtn" class="btn-secondary">
+            <i class="fas fa-redo"></i> إعادة تعيين
+          </button>
+        </div>
+
+        <!-- خيارات تصدير متقدمة -->
+        <div class="advanced-export" id="advancedExport">
+          <h3><i class="fas fa-download"></i> خيارات التصدير المتقدمة</h3>
+          <p>اختر البيانات التي تريد تصديرها:</p>
+
+          <div class="export-options-grid">
+            <div class="export-option-item">
+              <input type="checkbox" id="exportRevenue" checked />
+              <label for="exportRevenue">الإيرادات</label>
+            </div>
+            <div class="export-option-item">
+              <input type="checkbox" id="exportMembers" checked />
+              <label for="exportMembers">بيانات الأعضاء</label>
+            </div>
+            <div class="export-option-item">
+              <input type="checkbox" id="exportSettlements" checked />
+              <label for="exportSettlements">عمليات التسوية</label>
+            </div>
+            <div class="export-option-item">
+              <input type="checkbox" id="exportCharts" checked />
+              <label for="exportCharts">الرسوم البيانية</label>
+            </div>
+            <div class="export-option-item">
+              <input type="checkbox" id="exportStats" checked />
+              <label for="exportStats">الإحصائيات</label>
+            </div>
+          </div>
+
+          <div
+            style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap"
+          >
+            <button type="button" id="exportAllBtn" class="btn-success">
+              <i class="fas fa-file-archive"></i> تصدير تقرير كامل (ZIP)
+            </button>
+
+            <button type="button" id="exportCustomBtn" class="btn-secondary">
+              <i class="fas fa-cogs"></i> تصدير مخصص
+            </button>
+          </div>
+        </div>
+
+        <!-- تصدير عبر البريد الإلكتروني -->
+        <div class="email-export-section">
+          <h4>
+            <i class="fas fa-envelope"></i> إرسال التقرير بالبريد الإلكتروني
+          </h4>
+          <p>يمكنك إرسال التقرير إلى بريدك الإلكتروني أو إلى جهات أخرى.</p>
+
+          <div class="email-input-group">
+            <input
+              type="email"
+              id="emailRecipient"
+              placeholder="البريد الإلكتروني"
+              value=""
+            />
+            <button
+              type="button"
+              id="sendEmailBtn"
+              class="btn-primary"
+              style="white-space: nowrap"
+            >
+              <i class="fas fa-paper-plane"></i> إرسال
+            </button>
+          </div>
+
+          <div style="margin-top: 10px; font-size: 14px; color: #666">
+            <label>
+              <input type="checkbox" id="saveEmailTemplate" />
+              حفظ هذا البريد كقالب
+            </label>
+          </div>
+        </div>
+
+        <!-- جدولة التصدير -->
+        <div class="scheduled-export">
+          <h4><i class="fas fa-clock"></i> جدولة التصدير التلقائي</h4>
+          <p>يمكنك جدولة إرسال التقارير تلقائياً:</p>
+
+          <div class="schedule-options">
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="scheduleDaily"
+                name="schedule"
+                value="daily"
+              />
+              <label for="scheduleDaily">يومياً</label>
+            </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="scheduleWeekly"
+                name="schedule"
+                value="weekly"
+              />
+              <label for="scheduleWeekly">أسبوعياً</label>
+            </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="scheduleMonthly"
+                name="schedule"
+                value="monthly"
+                checked
+              />
+              <label for="scheduleMonthly">شهرياً</label>
+            </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="scheduleQuarterly"
+                name="schedule"
+                value="quarterly"
+              />
+              <label for="scheduleQuarterly">ربع سنوي</label>
+            </div>
+          </div>
+
+          <div style="margin-top: 15px">
+            <button type="button" id="scheduleExportBtn" class="btn-secondary">
+              <i class="fas fa-calendar-check"></i> تفعيل الجدولة
+            </button>
+            <button
+              type="button"
+              id="viewScheduleBtn"
+              class="btn-secondary"
+              style="margin-right: 10px"
+            >
+              <i class="fas fa-list"></i> عرض الجدول الزمني
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>جاري تحليل البيانات وإنشاء التقرير...</p>
+      </div>
+
+      <!-- قسم الإحصائيات -->
+      <section class="stats-section" id="statsSection" style="display: none">
+        <h2 class="section-title">
+          <i class="fas fa-chart-pie"></i> الإحصائيات الرئيسية
+        </h2>
+
+        <div class="stats-grid" id="statsGrid">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+      </section>
+
+      <!-- قسم الرسوم البيانية -->
+      <section class="charts-section" id="chartsSection" style="display: none">
+        <h2 class="section-title">
+          <i class="fas fa-chart-area"></i> الرسوم البيانية
+        </h2>
+
+        <div class="export-buttons">
+          <button
+            type="button"
+            onclick="exportChart('revenueChart')"
+            class="btn-secondary"
+          >
+            <i class="fas fa-download"></i> تصدير توزيع الإيرادات
+          </button>
+          <button
+            type="button"
+            onclick="exportChart('statusChart')"
+            class="btn-secondary"
+          >
+            <i class="fas fa-download"></i> تصدير حالة الأعضاء
+          </button>
+          <button
+            type="button"
+            onclick="exportChart('monthlyRevenueChart')"
+            class="btn-secondary"
+          >
+            <i class="fas fa-download"></i> تصدير الإيرادات الشهرية
+          </button>
+          <button
+            type="button"
+            onclick="exportChart('membersByYearChart')"
+            class="btn-secondary"
+          >
+            <i class="fas fa-download"></i> تصدير توزيع الأعضاء
+          </button>
+          <button type="button" onclick="exportAllCharts()" class="btn-success">
+            <i class="fas fa-download"></i> تصدير جميع الرسوم
+          </button>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3>
+                <i class="fas fa-money-bill-wave"></i> توزيع الإيرادات حسب النوع
+              </h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3>
+                <i class="fas fa-calendar-check"></i> حالة الأعضاء خلال الفترة
+              </h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3><i class="fas fa-chart-line"></i> الإيرادات الشهرية</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="monthlyRevenueChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3><i class="fas fa-users"></i> توزيع الأعضاء حسب السنة</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="membersByYearChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- قسم الجداول -->
+      <section class="tables-section" id="tablesSection" style="display: none">
+        <h2 class="section-title">
+          <i class="fas fa-table"></i> الجداول التفصيلية
+        </h2>
+
+        <div class="export-buttons">
+          <button type="button" id="exportExcelBtn" class="btn-success">
+            <i class="fas fa-file-excel"></i> تصدير إلى Excel
+          </button>
+          <button type="button" id="exportPdfBtn" class="btn-danger">
+            <i class="fas fa-file-pdf"></i> تصدير إلى PDF
+          </button>
+          <button type="button" id="exportCsvBtn" class="btn-secondary">
+            <i class="fas fa-file-csv"></i> تصدير إلى CSV
+          </button>
+          <button type="button" id="exportPrintBtn" class="btn-secondary">
+            <i class="fas fa-print"></i> طباعة التقرير
+          </button>
+        </div>
+
+        <div class="table-container">
+          <h3><i class="fas fa-money-check-alt"></i> الإيرادات التفصيلية</h3>
+          <table id="revenueTable">
+            <thead>
+              <tr>
+                <th>الفترة</th>
+                <th>الإيرادات (ريال)</th>
+                <th>عدد المعاملات</th>
+                <th>متوسط المبلغ</th>
+                <th>نسبة النمو</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="revenueTableBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-container">
+          <h3><i class="fas fa-user-check"></i> حالة الأعضاء</h3>
+          <table id="membersTable">
+            <thead>
+              <tr>
+                <th>اسم العضو</th>
+                <th>رقم الجوال</th>
+                <th>حالة الاشتراك</th>
+                <th>المبلغ المدفوع</th>
+                <th>المبلغ المتأخر</th>
+                <th>آخر دفعة</th>
+                <th>ملاحظات</th>
+              </tr>
+            </thead>
+            <tbody id="membersTableBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-container">
+          <h3><i class="fas fa-exchange-alt"></i> عمليات التسوية</h3>
+          <table id="settlementsTable">
+            <thead>
+              <tr>
+                <th>اسم العضو</th>
+                <th>السنة</th>
+                <th>نوع الاشتراك</th>
+                <th>المبلغ المستحق</th>
+                <th>المبلغ المدفوع</th>
+                <th>المبلغ المسوي</th>
+                <th>تاريخ التسوية</th>
+              </tr>
+            </thead>
+            <tbody id="settlementsTableBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- سجل التحميلات -->
+      <section class="download-history" id="downloadHistory">
+        <h3><i class="fas fa-history"></i> سجل التحميلات الأخيرة</h3>
+        <div id="downloadHistoryList">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+        <div style="text-align: center; margin-top: 15px">
+          <button type="button" id="clearHistoryBtn" class="btn-secondary">
+            <i class="fas fa-trash"></i> مسح السجل
+          </button>
+          <button
+            type="button"
+            id="refreshHistoryBtn"
+            class="btn-secondary"
+            style="margin-right: 10px"
+          >
+            <i class="fas fa-sync"></i> تحديث
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a> | هاتف
+          الدعم: <a href="mailto:salanarty@gmail.com">+966502191635</a>
+        </p>
+        <p style="font-size: 12px; margin-top: 10px; color: #888">
+          إصدار التقرير: 2.0 | تم التحديث: <span id="lastUpdateDate"></span>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="db/supabase-config.js"></script>
+    <script src="db/supabase-init.js"></script>
+    <script src="db/supabase-db.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

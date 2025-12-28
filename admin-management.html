@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دار أبناء سلنارتي - إدارة المسؤولين</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/admin-management.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div>
+            <h1>دار أبناء سلنارتي بالرياض</h1>
+            <p class="subtitle">نظام إدارة المسؤولين والصلاحيات</p>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="./index.html"><i class="fas fa-home"></i> الرئيسية</a>
+          <a href="./add_data.html"
+            ><i class="fas fa-user-plus"></i> إضافة عضو جديد</a
+          >
+          <a href="./members.html"
+            ><i class="fas fa-users"></i> قائمة الأعضاء</a
+          >
+          <a href="./reports.html"><i class="fas fa-chart-bar"></i> التقارير</a>
+          <a href="./committee.html"
+            ><i class="fas fa-users-cog"></i> لجنة الإدارة</a
+          >
+          <a href="./admin-management.html" class="active"
+            ><i class="fas fa-user-shield"></i> إدارة المسؤولين</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message"></div>
+
+      <div class="admin-header">
+        <h2><i class="fas fa-user-shield"></i> إدارة المسؤولين</h2>
+        <p>هنا يمكنك إضافة وتعديل وحذف المسؤولين وتحديد صلاحياتهم.</p>
+      </div>
+
+      <div class="admin-instructions">
+        <h3><i class="fas fa-info-circle"></i> معلومات النظام:</h3>
+        <ul>
+          <li><strong>مدير النظام:</strong> يمتلك جميع الصلاحيات</li>
+          <li><strong>المحاسب:</strong> يمكنه إدارة التقارير والأعضاء</li>
+          <li><strong>المشرف:</strong> يمكنه فقط عرض البيانات</li>
+          <li><strong>المحرر:</strong> يمكنه إضافة وتعديل البيانات</li>
+        </ul>
+      </div>
+
+      <!-- نموذج إضافة/تعديل مسؤول -->
+      <div class="admin-form-section">
+        <h3><i class="fas fa-user-plus"></i> إضافة مسؤول جديد</h3>
+
+        <form id="adminForm">
+          <input type="hidden" id="adminId" value="" />
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName"
+                ><i class="fas fa-user"></i> الاسم الكامل *</label
+              >
+              <input
+                type="text"
+                id="fullName"
+                placeholder="أدخل الاسم الكامل"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="username"
+                ><i class="fas fa-user-tag"></i> اسم المستخدم *</label
+              >
+              <input
+                type="text"
+                id="username"
+                placeholder="أدخل اسم المستخدم"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email"
+                ><i class="fas fa-envelope"></i> البريد الإلكتروني</label
+              >
+              <input
+                type="email"
+                id="email"
+                placeholder="أدخل البريد الإلكتروني"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone"><i class="fas fa-phone"></i> رقم الجوال</label>
+              <input type="tel" id="phone" placeholder="أدخل رقم الجوال" />
+            </div>
+
+            <div class="form-group">
+              <label for="role"
+                ><i class="fas fa-user-tie"></i> نوع المسؤول *</label
+              >
+              <select id="role" required>
+                <option value="">اختر نوع المسؤول</option>
+                <option value="super_admin">مدير النظام</option>
+                <option value="accountant">محاسب</option>
+                <option value="editor">محرر</option>
+                <option value="viewer">مشرف</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="password"
+                ><i class="fas fa-key"></i> كلمة المرور *</label
+              >
+              <div class="password-input">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="أدخل كلمة المرور"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="togglePassword"
+                  title="عرض كلمة المرور"
+                  aria-label="عرض كلمة المرور"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword"
+                ><i class="fas fa-key"></i> تأكيد كلمة المرور *</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="أعد إدخال كلمة المرور"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="permissions-section">
+            <h4><i class="fas fa-lock"></i> الصلاحيات</h4>
+            <div class="permissions-grid">
+              <div class="permission-item">
+                <input type="checkbox" id="permView" checked />
+                <label for="permView">عرض البيانات</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permAdd" />
+                <label for="permAdd">إضافة أعضاء</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permEdit" />
+                <label for="permEdit">تعديل البيانات</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permDelete" />
+                <label for="permDelete">حذف البيانات</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permReports" />
+                <label for="permReports">التقارير</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permCommittee" />
+                <label for="permCommittee">لجنة الإدارة</label>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" id="permAdmins" />
+                <label for="permAdmins">إدارة المسؤولين</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="saveAdminBtn" class="btn-primary">
+              <i class="fas fa-save"></i> حفظ المسؤول
+            </button>
+            <button type="button" id="resetFormBtn" class="btn-secondary">
+              <i class="fas fa-redo"></i> إعادة تعيين
+            </button>
+            <button type="button" id="generatePasswordBtn" class="btn-success">
+              <i class="fas fa-key"></i> توليد كلمة مرور
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- قائمة المسؤولين -->
+      <div class="admin-list-section">
+        <h3><i class="fas fa-list"></i> قائمة المسؤولين</h3>
+
+        <div class="admin-stats">
+          <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-info">
+              <span>عدد المسؤولين</span>
+              <strong id="totalAdmins">0</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-user-check"></i>
+            <div class="stat-info">
+              <span>النشطين</span>
+              <strong id="activeAdmins">0</strong>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-user-times"></i>
+            <div class="stat-info">
+              <span>المعطلين</span>
+              <strong id="inactiveAdmins">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table id="adminsTable">
+            <thead>
+              <tr>
+                <th>م</th>
+                <th>الاسم</th>
+                <th>اسم المستخدم</th>
+                <th>الدور</th>
+                <th>البريد</th>
+                <th>تاريخ الإنشاء</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminsTableBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- سجل الأنشطة -->
+      <div class="activity-log">
+        <h3><i class="fas fa-history"></i> سجل أنشطة المسؤولين</h3>
+        <div class="activity-list" id="activityList">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin-management.js"></script>
+  </body>
+</html>

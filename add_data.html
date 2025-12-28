@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دار أبناء سلنارتي - إضافة عضو جديد مع نظام التسوية</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/add_data.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* أنماط Supabase Loading */
+      .supabase-loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .supabase-loading.show {
+        display: flex;
+      }
+
+      .supabase-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3ecf8e;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* تحسينات إضافية */
+      .message {
+        transition: all 0.3s ease;
+      }
+
+      .message.show {
+        display: block !important;
+        opacity: 1 !important;
+      }
+
+      .settlement-color {
+        color: #2e7d32 !important;
+        font-weight: bold;
+      }
+
+      .settled-row {
+        background-color: #e8f5e9 !important;
+      }
+
+      .settled-row td {
+        border-color: #a5d6a7 !important;
+      }
+
+      .settlement-badge {
+        background-color: #2e7d32;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+
+      .muted {
+        color: #666;
+        font-size: 0.9em;
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Supabase Loading Overlay -->
+    <div id="supabaseLoading" class="supabase-loading">
+      <div class="supabase-spinner"></div>
+      <p>جاري الاتصال بقاعدة البيانات...</p>
+    </div>
+
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div>
+            <h1>دار أبناء سلنارتي بالرياض</h1>
+            <p class="subtitle">
+              نظام إدارة اشتراكات الأعضاء - إضافة عضو جديد مع نظام التسوية
+            </p>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="./index.html"><i class="fas fa-home"></i> الرئيسية</a>
+          <a href="./add_data.html" class="active"
+            ><i class="fas fa-user-plus"></i> إضافة عضو جديد</a
+          >
+          <a href="./members.html"
+            ><i class="fas fa-users"></i> قائمة الأعضاء</a
+          >
+          <a href="./reports.html"><i class="fas fa-chart-bar"></i> التقارير</a>
+          <a href="./committee.html"
+            ><i class="fas fa-users-cog"></i> لجنة الإدارة</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message" style="display: none; opacity: 0"></div>
+
+      <section class="form-section">
+        <h2 class="section-title">
+          <i class="fas fa-user-circle"></i> بيانات العضو الأساسية
+        </h2>
+
+        <div class="instructions">
+          <p>
+            <strong>تعليمات:</strong> قم بملء جميع الحقول المطلوبة (*) ثم اختر
+            سنة الانضمام لتوليد جدول الاشتراكات السنوية.
+          </p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="memberName" class="required">اسم العضو الكامل</label>
+            <input
+              type="text"
+              id="memberName"
+              placeholder="عبد الله الزبير محمد"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="memberPhone" class="required">رقم الجوال</label>
+            <input
+              type="tel"
+              id="memberPhone"
+              placeholder="0502191635"
+              pattern="[0-9]{10}"
+              required
+            />
+            <div class="form-note">يجب أن يكون 10 أرقام تبدأ بـ 05</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="membershipNumber" class="required">رقم العضوية</label>
+            <input
+              type="text"
+              id="membershipNumber"
+              placeholder="DSA-RI-0001"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="joinYear" class="required">سنة الانضمام</label>
+            <select id="joinYear" required>
+              <option value="">اختر سنة الانضمام</option>
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </select>
+            <div class="form-note">
+              سيتم إنشاء جدول السنوات من هذه السنة حتى 2026
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button
+            type="button"
+            id="generateTableBtn"
+            class="btn-primary"
+            disabled
+          >
+            <i class="fas fa-table"></i> توليد جدول الاشتراكات
+          </button>
+        </div>
+      </section>
+
+      <!-- قسم نظام التسوية الجديد -->
+      <section
+        class="settlement-section"
+        id="settlementSection"
+        style="display: none"
+      >
+        <h3>
+          <i class="fas fa-handshake"></i> نظام التسوية للأعضاء داخل الدار
+        </h3>
+
+        <div class="settlement-info">
+          <p>
+            <strong>ميزة التسوية:</strong> للأعضاء داخل الدار فقط، يمكنهم دفع أي
+            مبلغ للسنة (حتى لو أقل من 1500 ريال) ويعتبر الباقي تمت تسويته ولا
+            يدخل في حساب المتأخرات.
+          </p>
+          <p>
+            <strong>مثال:</strong> إذا دفع العضو 1000 ريال فقط (بدلاً من 1500)،
+            فإن 500 ريال المتبقية <strong>لا تحسب</strong> كمتأخرات.
+          </p>
+        </div>
+
+        <div class="settlement-controls">
+          <div class="settlement-checkbox">
+            <input type="checkbox" id="globalSettlementToggle" />
+            <label for="globalSettlementToggle"
+              >تفعيل نظام التسوية لهذا العضو</label
+            >
+          </div>
+
+          <button type="button" id="autoSettleBtn" class="btn-warning">
+            <i class="fas fa-calculator"></i> تسوية تلقائية
+          </button>
+
+          <div class="form-note">التسوية تنطبق فقط على الأعضاء داخل الدار</div>
+        </div>
+
+        <div
+          class="settlement-details"
+          id="settlementDetails"
+          style="display: none"
+        >
+          <div class="settlement-stats">
+            <div class="settlement-stat">
+              <div class="settlement-stat-value" id="settledYearsCount">0</div>
+              <div class="settlement-stat-label">سنوات تمت تسويتها</div>
+            </div>
+            <div class="settlement-stat">
+              <div class="settlement-stat-value" id="settledAmount">0 ريال</div>
+              <div class="settlement-stat-label">مجموع المبالغ المسوية</div>
+            </div>
+            <div class="settlement-stat">
+              <div class="settlement-stat-value" id="savedFromDebt">0 ريال</div>
+              <div class="settlement-stat-label">وفر من المتأخرات</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="form-section"
+        id="subscriptionsSection"
+        style="display: none"
+      >
+        <h2 class="section-title">
+          <i class="fas fa-calendar-alt"></i> جدول الاشتراكات السنوية
+        </h2>
+
+        <div class="instructions">
+          <p>
+            <strong>تعليمات:</strong> لكل سنة، حدد نوع الاشتراك وأدخل المبلغ
+            المدفوع. للأعضاء داخل الدار، يمكن تفعيل نظام التسوية.
+          </p>
+          <ul>
+            <li><strong>غير مشترك:</strong> ليس عليه أي رسوم</li>
+            <li>
+              <strong>خارج الدار:</strong> 200 ريال (حتى 2025) / 300 ريال (2026)
+            </li>
+            <li>
+              <strong>داخل الدار:</strong> 1500 ريال (جميع السنوات) -
+              <span class="settlement-color">✓ يمكن التسوية</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="years-table-container">
+          <table class="years-table" id="yearsTable">
+            <thead>
+              <tr>
+                <th width="8%">السنة</th>
+                <th width="12%">نوع الاشتراك</th>
+                <th width="10%">المستحق (ريال)</th>
+                <th width="10%">المدفوع (ريال)</th>
+                <th width="10%">المتبقي (ريال)</th>
+                <th width="10%">الحالة</th>
+                <th width="12%">التسوية</th>
+                <th width="20%">ملاحظات</th>
+              </tr>
+            </thead>
+            <tbody id="yearsBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+            <tfoot id="yearsFooter">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <button type="button" id="fillExampleBtn" class="btn-warning">
+              <i class="fas fa-magic"></i> تعبئة بمثال مع تسوية
+            </button>
+            <div class="form-note">
+              تعبيئة الجدول بمثال يحتوي على سنوات تمت تسويتها
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="button" id="clearTableBtn" class="btn-secondary">
+              <i class="fas fa-broom"></i> مسح بيانات الجدول
+            </button>
+            <div class="form-note">مسح جميع الحقول في جدول السنوات</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section" id="summarySection" style="display: none">
+        <h2 class="section-title">
+          <i class="fas fa-chart-pie"></i> ملخص الإحصائيات مع نظام التسوية
+        </h2>
+
+        <div class="summary-cards" id="summaryCards">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+
+        <!-- ملخص التسوية -->
+        <div
+          class="summary-cards"
+          id="settlementSummaryCards"
+          style="margin-top: 20px"
+        >
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="finalStatus">الحالة النهائية للعضو</label>
+            <select id="finalStatus">
+              <option value="مسدد">مسدد بالكامل</option>
+              <option value="مسدد جزئياً">مسدد جزئياً</option>
+              <option value="تمت التسوية" selected>تمت التسوية</option>
+              <option value="غير مسدد">غير مسدد</option>
+              <option value="متأخر">متأخر في السداد</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="totalRemaining"
+              >إجمالي المتأخرات بعد التسوية (ريال)</label
+            >
+            <input
+              type="number"
+              id="totalRemaining"
+              value="0"
+              readonly
+              style="background-color: #f8f9fa; font-weight: bold"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="originalDebt">المتأخرات الأصلية (بدون تسوية)</label>
+            <input
+              type="number"
+              id="originalDebt"
+              value="0"
+              readonly
+              style="background-color: #fff8e1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="savedAmount">المبلغ المستقطع بالتسوية</label>
+            <input
+              type="number"
+              id="savedAmount"
+              value="0"
+              readonly
+              style="background-color: #e8f5e9"
+            />
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="notes">ملاحظات عامة (خاصة بالتسوية إن وجدت)</label>
+          <textarea
+            id="notes"
+            rows="3"
+            placeholder="ملاحظات حول التسوية أو الاتفاق مع العضو..."
+          ></textarea>
+        </div>
+
+        <div class="action-buttons">
+          <button type="button" id="saveBtn" class="btn-success">
+            <i class="fas fa-save"></i> حفظ العضو في قاعدة البيانات
+          </button>
+
+          <button type="button" id="previewBtn" class="btn-primary">
+            <i class="fas fa-eye"></i> معاينة البيانات مع التسوية
+          </button>
+
+          <button type="button" id="resetBtn" class="btn-secondary">
+            <i class="fas fa-redo"></i> مسح النموذج
+          </button>
+        </div>
+
+        <div class="loading" id="loading" style="display: none">
+          <div class="spinner"></div>
+          <p>جاري حفظ البيانات...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a> | هاتف
+          الدعم: <a href="tel:+966502191635">+966502191635</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="db/supabase-config.js"></script>
+    <script src="db/supabase-init.js"></script>
+    <script src="db/supabase-db.js"></script>
+    <script src="js/add_data.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

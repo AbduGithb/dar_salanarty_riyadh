@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دار أبناء سلنارتي - لجنة إدارة الدار</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/committee.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-users-cog"></i>
+          </div>
+          <div>
+            <h1>دار أبناء سلنارتي بالرياض</h1>
+            <p class="subtitle">لجنة إدارة الدار - التشكيل والإدارة</p>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="./index.html"><i class="fas fa-home"></i> الرئيسية</a>
+          <a href="./add_data.html"
+            ><i class="fas fa-user-plus"></i> إضافة عضو جديد</a
+          >
+          <a href="./members.html"
+            ><i class="fas fa-users"></i> قائمة الأعضاء</a
+          >
+          <a href="./reports.html"><i class="fas fa-chart-bar"></i> التقارير</a>
+          <a href="./committee.html" class="active"
+            ><i class="fas fa-users-cog"></i> لجنة الإدارة</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message"></div>
+
+      <div class="committee-header">
+        <h2><i class="fas fa-users-cog"></i> لجنة إدارة الدار</h2>
+        <p>
+          هنا يمكنك تشكيل وإدارة لجنة إدارة الدار من خلال اختيار الأعضاء للوظائف
+          المختلفة.
+        </p>
+      </div>
+
+      <div class="committee-instructions">
+        <h3><i class="fas fa-info-circle"></i> تعليمات:</h3>
+        <ul>
+          <li>اختر الأعضاء المناسبين لكل منصب في اللجنة.</li>
+          <li>يمكن لكل عضو أن يشغل منصباً واحداً فقط.</li>
+          <li>سيتم حفظ التغييرات تلقائياً عند تحديد أي عضو.</li>
+          <li>يمكنك استعادة التشكيل السابق في أي وقت.</li>
+        </ul>
+      </div>
+
+      <div class="committee-grid">
+        <!-- الرئاسة -->
+        <div class="committee-section presidency-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div>
+              <h3>الرئاسة</h3>
+              <p>رئيس اللجنة ونائب الرئيس</p>
+            </div>
+          </div>
+
+          <div class="position-group">
+            <div class="position-item">
+              <label for="presidentSelect">رئيس اللجنة</label>
+              <div class="select-wrapper">
+                <select id="presidentSelect" class="member-select">
+                  <option value="">اختر رئيس اللجنة</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="presidentInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+
+            <div class="position-item">
+              <label for="vicePresidentSelect">نائب الرئيس</label>
+              <div class="select-wrapper">
+                <select id="vicePresidentSelect" class="member-select">
+                  <option value="">اختر نائب الرئيس</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="vicePresidentInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الأمانة العامة -->
+        <div class="committee-section secretary-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <div>
+              <h3>الأمانة العامة</h3>
+              <p>أمين عام اللجنة ومساعده</p>
+            </div>
+          </div>
+
+          <div class="position-group">
+            <div class="position-item">
+              <label for="secretaryGeneralSelect">الأمين العام</label>
+              <div class="select-wrapper">
+                <select id="secretaryGeneralSelect" class="member-select">
+                  <option value="">اختر الأمين العام</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="secretaryGeneralInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+
+            <div class="position-item">
+              <label for="assistantSecretarySelect">مساعد الأمين العام</label>
+              <div class="select-wrapper">
+                <select id="assistantSecretarySelect" class="member-select">
+                  <option value="">اختر المساعد</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="assistantSecretaryInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- أمانة المال -->
+        <div class="committee-section treasury-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-money-check-alt"></i>
+            </div>
+            <div>
+              <h3>أمانة المال</h3>
+              <p>أمين المال ومساعده</p>
+            </div>
+          </div>
+
+          <div class="position-group">
+            <div class="position-item">
+              <label for="treasurerSelect">أمين المال</label>
+              <div class="select-wrapper">
+                <select id="treasurerSelect" class="member-select">
+                  <option value="">اختر أمين المال</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="treasurerInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+
+            <div class="position-item">
+              <label for="assistantTreasurerSelect">مساعد أمين المال</label>
+              <div class="select-wrapper">
+                <select id="assistantTreasurerSelect" class="member-select">
+                  <option value="">اختر المساعد</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="assistantTreasurerInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الأعضاء -->
+        <div class="committee-section members-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-user-friends"></i>
+            </div>
+            <div>
+              <h3>أعضاء اللجنة</h3>
+              <p>أعضاء اللجنة الإضافيين (يمكن إضافة حتى 10 أعضاء)</p>
+            </div>
+          </div>
+
+          <div class="members-controls">
+            <div class="add-member-form">
+              <div class="select-wrapper" style="flex: 1">
+                <select
+                  id="committeeMemberSelect"
+                  class="member-select"
+                  aria-label="اختر عضواً لإضافته إلى اللجنة"
+                >
+                  <option value="">اختر عضواً لإضافته إلى اللجنة</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <button type="button" id="addMemberBtn" class="btn-success">
+                <i class="fas fa-plus"></i> إضافة
+              </button>
+            </div>
+          </div>
+
+          <div class="members-list" id="committeeMembersList">
+            <!-- سيتم تعبئتها بالجافاسكريبت -->
+            <div class="empty-state">
+              <i class="fas fa-users-slash"></i>
+              <p>لم يتم إضافة أي أعضاء بعد</p>
+            </div>
+          </div>
+
+          <div class="members-stats">
+            <div class="stat-item">
+              <span>عدد الأعضاء:</span>
+              <strong id="membersCount">0</strong>
+            </div>
+            <div class="stat-item">
+              <span>الحد الأقصى:</span>
+              <strong>10</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="committee-actions">
+        <div class="action-buttons">
+          <button type="button" id="saveCommitteeBtn" class="btn-primary">
+            <i class="fas fa-save"></i> حفظ التشكيل الحالي
+          </button>
+
+          <button type="button" id="resetCommitteeBtn" class="btn-secondary">
+            <i class="fas fa-redo"></i> استعادة التشكيل السابق
+          </button>
+
+          <button type="button" id="clearAllBtn" class="btn-danger">
+            <i class="fas fa-trash-alt"></i> مسح الكل
+          </button>
+        </div>
+
+        <div class="committee-history">
+          <h4><i class="fas fa-history"></i> آخر تحديث للجنة</h4>
+          <div id="lastUpdateInfo">
+            <p>لم يتم حفظ أي تشكيل سابق</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- جدول الأعضاء الحاليين في اللجنة -->
+      <div class="current-committee-table">
+        <h3><i class="fas fa-list-alt"></i> أعضاء اللجنة الحاليين</h3>
+
+        <div class="table-responsive">
+          <table id="currentCommitteeTable">
+            <thead>
+              <tr>
+                <th>المنصب</th>
+                <th>اسم العضو</th>
+                <th>رقم الجوال</th>
+                <th>حالة الاشتراك</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="currentCommitteeTableBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+              <tr>
+                <td
+                  colspan="5"
+                  style="text-align: center; color: #6c757d; padding: 20px"
+                >
+                  <i class="fas fa-info-circle"></i> لم يتم تشكيل اللجنة بعد
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- تقرير طباعة اللجنة -->
+      <div class="print-committee-section">
+        <h3><i class="fas fa-print"></i> طباعة تشكيل اللجنة</h3>
+        <p>يمكنك طباعة تشكيل اللجنة الحالي بتنسيق مناسب للعرض.</p>
+
+        <div class="print-options">
+          <button type="button" id="printCommitteeBtn" class="btn-secondary">
+            <i class="fas fa-print"></i> طباعة التشكيل
+          </button>
+
+          <button type="button" id="exportCommitteeBtn" class="btn-secondary">
+            <i class="fas fa-file-pdf"></i> تصدير كـ PDF
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a> | هاتف
+          الدعم: <a href="mailto:salanarty@gmail.com">+966502191635</a>
+        </p>
+        <p style="font-size: 12px; margin-top: 10px; color: #888">
+          إصدار نظام اللجنة: 1.0
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="db/supabase-config.js"></script>
+    <script src="db/supabase-init.js"></script>
+    <script src="db/supabase-db.js"></script>
+    <script src="js/committee.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دار أبناء سلنارتي - حالة الاشتراكات</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/add_data.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <div>
+            <h1>دار أبناء سلنارتي بالرياض</h1>
+            <p class="subtitle">
+              خدمة الاستعلام عن حالة الاشتراكات السنوية للأعضاء
+            </p>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="./index.html" class="active"
+            ><i class="fas fa-home"></i> الرئيسية</a
+          >
+          <a href="./add_data.html"
+            ><i class="fas fa-user-plus"></i> إضافة عضو جديد</a
+          >
+          <a href="./members.html"
+            ><i class="fas fa-users"></i> قائمة الأعضاء</a
+          >
+          <a href="./reports.html"><i class="fas fa-chart-bar"></i> التقارير</a>
+          <a href="./committee.html"
+            ><i class="fas fa-users-cog"></i> لجنة الإدارة</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="search-section">
+        <h2 class="section-title">
+          <i class="fas fa-search"></i> استعلام عن حالة الاشتراكات
+        </h2>
+        <div class="instructions">
+          <p>
+            <i class="fas fa-info-circle"></i> قم بإدخال رقم الجوال المسجل في
+            الدار (10 أرقام) للاطلاع على حالة اشتراكاتك السنوية
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="phone"
+            ><i class="fas fa-mobile-alt"></i> رقم الجوال</label
+          >
+          <input
+            type="tel"
+            id="phone"
+            placeholder="مثال: 0502191635"
+            pattern="[0-9]{10}"
+            title="يرجى إدخال 10 أرقام تبدأ بـ 05"
+            maxlength="10"
+            required
+          />
+        </div>
+
+        <button id="searchBtn" class="btn-primary">
+          <i class="fas fa-search"></i> بحث عن العضو
+        </button>
+
+        <div class="loading" id="loading" style="display: none">
+          <div class="spinner"></div>
+          <p>جاري البحث في قاعدة البيانات...</p>
+        </div>
+      </section>
+
+      <div
+        id="debugOutput"
+        class="debug-output"
+        style="
+          display: none;
+          padding: 10px;
+          border: 1px solid #ddd;
+          margin-bottom: 15px;
+          background: #fff;
+          color: #333;
+          font-size: 0.95rem;
+        "
+      >
+        <strong>سجل التصحيح:</strong>
+        <div id="debugMessages" style="margin-top: 8px"></div>
+      </div>
+
+      <section class="member-section" id="memberSection" style="display: none">
+        <h2 class="section-title">
+          <i class="fas fa-user-circle"></i> معلومات العضو
+        </h2>
+        <div class="member-info" id="memberInfo">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+      </section>
+
+      <section
+        class="subscriptions-section"
+        id="subscriptionsSection"
+        style="display: none"
+      >
+        <h2 class="section-title">
+          <i class="fas fa-calendar-alt"></i> حالة الاشتراكات السنوية حتي 2026
+        </h2>
+
+        <div class="legend">
+          <div class="legend-item">
+            <span class="status-dot paid"></span>
+            <span>مسدد بالكامل</span>
+          </div>
+          <div class="legend-item">
+            <span class="status-dot partial"></span>
+            <span>مسدد جزئياً</span>
+          </div>
+          <div class="legend-item">
+            <span class="status-dot unpaid"></span>
+            <span>غير مسدد</span>
+          </div>
+          <div class="legend-item">
+            <span class="status-dot not-subscribed"></span>
+            <span>غير مشترك</span>
+          </div>
+        </div>
+
+        <div class="membership-types">
+          <div class="type-card">
+            <h4><i class="fas fa-home"></i> ساكن في الدار</h4>
+            <p class="fee">1500 ريال/سنة</p>
+          </div>
+          <div class="type-card">
+            <h4><i class="fas fa-external-link-alt"></i> خارج الدار</h4>
+            <p class="fee">200 ريال/سنة (حتى 2025)</p>
+            <p class="fee">300 ريال/سنة (2026)</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <!-- في قسم الجدول -->
+          <table id="subscriptionsTable">
+            <thead>
+              <tr>
+                <th>السنة</th>
+                <th>نوع الاشتراك</th>
+                <th>الرسوم المستحقة (ريال)</th>
+                <th>المبلغ المدفوع (ريال)</th>
+                <th>المبلغ المتبقي (ريال)</th>
+                <th>الحالة</th>
+                <th>التسوية</th>
+                <!-- عمود جديد -->
+                <th>سداد</th>
+              </tr>
+            </thead>
+            <tbody id="subscriptionsBody">
+              <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary" id="summary">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+      </section>
+
+      <section class="no-result" id="noResult" style="display: none">
+        <div class="no-result-content">
+          <i class="fas fa-user-slash"></i>
+          <h3>لم يتم العثور على بيانات العضو</h3>
+          <p>يرجى التأكد من رقم الجوال وإعادة المحاولة</p>
+          <button id="tryAgainBtn" class="btn-secondary">
+            <i class="fas fa-redo"></i> محاولة أخرى
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a> | هاتف
+          الدعم: <a href="tel:+9665-0219-1635">+966502191635</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="db/supabase-config.js"></script>
+    <script src="db/supabase-init.js"></script>
+    <script src="db/supabase-db.js"></script>
+    <script src="js/javascript.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>
