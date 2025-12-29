@@ -372,15 +372,16 @@ function renderMembersTable() {
                     <td>${member.phone || "غير محدد"}</td>
                     <td>${member.membershipNumber || "غير محدد"}</td>
                     <td>${member.joinYear || "غير محدد"}</td>
-                    <td><strong>${(member.totalPaid !== undefined
-                      ? member.totalPaid
-                      : member.totalPaidAfterSettlement || 0
-                    ).toFixed(2)}</strong> ريال</td>
-                    <td><strong>${(member.totalUnpaidAfterSettlement !==
-                    undefined
-                      ? member.totalUnpaidAfterSettlement
-                      : member.totalUnpaid || 0
-                    ).toFixed(2)}</strong> ريال</td>
+                    <td><strong>${formatCurrency(
+                      member.totalPaid !== undefined
+                        ? member.totalPaid
+                        : member.totalPaidAfterSettlement || 0
+                    )}</strong></td>
+                    <td><strong>${formatCurrency(
+                      member.totalUnpaidAfterSettlement !== undefined
+                        ? member.totalUnpaidAfterSettlement
+                        : member.totalUnpaid || 0
+                    )}</strong></td>
                     <td>${member.lastUpdate || "غير محدد"}</td>
                     <td class="action-buttons-cell">
                         <a href="#" class="action-btn view" onclick="viewMemberDetails('${
@@ -570,21 +571,17 @@ async function viewMemberDetails(memberId) {
             <p><strong>عدد سنوات العضوية:</strong> ${
               subscriptionYears.length
             } سنة</p>
-            <p><strong>إجمالي المدفوع:</strong> ${totalPaid.toFixed(2)} ريال</p>
-            <p><strong>إجمالي المبالغ غير مسددة:</strong> ${totalRemaining.toFixed(
-              2
-            )} ريال</p>
-            <p><strong>المبلغ الإجمالي:</strong> ${totalDue.toFixed(2)} ريال</p>
-            <p><strong>الدين الأصلي:</strong> ${
-              memberData.original_debt
-                ? memberData.original_debt.toLocaleString()
-                : "0"
-            } ريال</p>
-            <p><strong>المبلغ المخصوم:</strong> ${
-              memberData.saved_amount
-                ? memberData.saved_amount.toLocaleString()
-                : "0"
-            } ريال</p>
+            <p><strong>إجمالي المدفوع:</strong> ${formatCurrency(totalPaid)}</p>
+            <p><strong>إجمالي المبالغ غير مسددة:</strong> ${formatCurrency(
+              totalRemaining
+            )}</p>
+            <p><strong>المبلغ الإجمالي:</strong> ${formatCurrency(totalDue)}</p>
+            <p><strong>الدين الأصلي:</strong> ${formatCurrency(
+              memberData.original_debt || 0
+            )}</p>
+            <p><strong>المبلغ المخصوم:</strong> ${formatCurrency(
+              memberData.saved_amount || 0
+            )}</p>
             <p><strong>ملاحظات عامة:</strong> ${
               memberData.notes || "لا توجد ملاحظات"
             }</p>
@@ -633,12 +630,12 @@ async function viewMemberDetails(memberId) {
             <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">${
               sub.subscriptionType
             }</td>
-            <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">${
+            <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">${formatCurrency(
               sub.amount
-            } ريال</td>
-            <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">${
+            )}</td>
+            <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">${formatCurrency(
               sub.paidAmount
-            } ريال</td>
+            )}</td>
             <td style="padding: 8px; text-align: center; border-bottom: 1px solid #eee;">
               <span class="status-badge ${yearStatusClass}">${yearStatus}</span>
               ${
@@ -1000,9 +997,9 @@ function printList() {
                 <td>${member.phone || ""}</td>
                 <td>${member.membershipNumber || ""}</td>
                 <td>${member.joinYear || ""}</td>
-                <td>${paid.toFixed(2)} ريال</td>
-                <td>${unpaid.toFixed(2)} ريال</td>
-                <td>${totalAmount.toFixed(2)} ريال</td>
+                <td>${formatCurrency(paid)}</td>
+                <td>${formatCurrency(unpaid)}</td>
+                <td>${formatCurrency(totalAmount)}</td>
             </tr>
         `);
   });
@@ -1021,15 +1018,15 @@ function printList() {
                     </tr>
                     <tr>
                         <td>إجمالي المدفوع:</td>
-                        <td><strong>${summary.totalPaid.toFixed(
-                          2
-                        )} ريال</strong></td>
+                        <td><strong>${formatCurrency(
+                          summary.totalPaid
+                        )}</strong></td>
                     </tr>
                     <tr>
                         <td>إجمالي المتأخرات (بعد التسوية):</td>
-                        <td><strong>${summary.totalUnpaid.toFixed(
-                          2
-                        )} ريال</strong></td>
+                        <td><strong>${formatCurrency(
+                          summary.totalUnpaid
+                        )}</strong></td>
                     </tr>
                     
                 </table>
@@ -1086,13 +1083,15 @@ function calculateSummary(data = membersData) {
             </div>
             
             <div class="summary-card paid">
-                <div class="summary-value">${summary.totalPaid.toFixed(2)}</div>
+                <div class="summary-value">${formatCurrency(
+                  summary.totalPaid
+                )}</div>
                 <div class="summary-label">إجمالي المدفوع</div>
             </div>
             
             <div class="summary-card unpaid">
-                <div class="summary-value">${summary.totalUnpaid.toFixed(
-                  2
+                <div class="summary-value">${formatCurrency(
+                  summary.totalUnpaid
                 )}</div>
                 <div class="summary-label">إجمالي المبالغ غير مسددة</div>
             </div>
@@ -1150,6 +1149,16 @@ function calculateSummaryStats(data = membersData) {
 // =============================================
 // 19. دوال مساعدة
 // =============================================
+function formatCurrency(amount) {
+  if (amount === undefined || amount === null) return "0 ر.س";
+  return (
+    new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount) + " ر.س"
+  );
+}
+
 function getStatusClass(status) {
   switch (status) {
     case "تم السداد":

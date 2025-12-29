@@ -249,17 +249,17 @@ async function fetchReportData(params) {
     const memberId = member.id;
 
     (member.subscriptions || []).forEach((s) => {
-      // Normalization Logic
+      // Normalization Logic - Matching members.js
       // Map snake_case DB fields to camelCase used in analysis
-      // Apply default amounts if missing
+      // Apply robust field mapping for amounts
       const year = s.year || s.subscription_year || new Date().getFullYear();
       const defaultAmount = year >= 2026 ? 300 : 200;
 
       subscriptions.push({
         ...s, // Keep original properties
         memberId: memberId,
-        amount: s.amount_due || defaultAmount,
-        paid: s.amount_paid || 0,
+        amount: s.amount_due || s.amount || s.due || defaultAmount,
+        paid: s.amount_paid || s.paid || s.paidAmount || 0,
         paymentDate: s.payment_date
           ? new Date(s.payment_date)
           : s.created_at
@@ -326,7 +326,9 @@ function analyzeRevenue(subscriptions, params) {
   };
 
   subscriptions.forEach((sub) => {
-    if (sub.paid && sub.paid > 0) {
+    // استثناء الاشتراكات من نوع "لا يوجد" كما في صفحة الأعضاء
+    // شمول مبالغ التسوية في الإيرادات لمطابقة "إجمالي المدفوع" في صفحة الأعضاء
+    if (sub.subscription_type !== "none" && sub.paid && sub.paid > 0) {
       totalRevenue += sub.paid;
       totalTransactions++;
 
@@ -374,7 +376,13 @@ function calculateMonthlyRevenue(subscriptions) {
   const monthlyData = {};
 
   subscriptions.forEach((sub) => {
-    if (sub.paid && sub.paid > 0 && sub.paymentDate) {
+    // استبعاد نوع "none" وحساب الإيرادات الشهرية
+    if (
+      sub.subscription_type !== "none" &&
+      sub.paid &&
+      sub.paid > 0 &&
+      sub.paymentDate
+    ) {
       const paymentDate = sub.paymentDate.toDate
         ? sub.paymentDate.toDate()
         : new Date(sub.paymentDate);
@@ -566,7 +574,7 @@ function analyzeTimePeriod(subscriptions, params) {
           yearData[year] = { revenue: 0, transactions: 0 };
         }
 
-        if (sub.paid) {
+        if (sub.subscription_type !== "none" && sub.paid) {
           yearData[year].revenue += sub.paid;
           yearData[year].transactions++;
         }
@@ -599,7 +607,7 @@ function analyzeTimePeriod(subscriptions, params) {
           monthData[monthKey] = { revenue: 0, transactions: 0 };
         }
 
-        if (sub.paid) {
+        if (sub.subscription_type !== "none" && sub.paid) {
           monthData[monthKey].revenue += sub.paid;
           monthData[monthKey].transactions++;
         }
@@ -1296,18 +1304,16 @@ function displaySettlementsTable(data) {
 
 // وظائف مساعدة
 function formatCurrency(amount) {
-  return new Intl.NumberFormat("ar-SA", {
-    style: "currency",
-    currency: "SAR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })
-    .format(amount)
-    .replace("SAR", "ريال");
+  return (
+    new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount) + " ريال"
+  );
 }
 
 function formatNumber(number) {
-  return new Intl.NumberFormat("ar-SA").format(number);
+  return new Intl.NumberFormat("en-US").format(number);
 }
 
 // تصدير الرسوم البيانية
