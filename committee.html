@@ -263,9 +263,61 @@
             </div>
           </div>
         </div>
+        <!-- رئيس الدار  -->
+        <div class="committee-section treasury-position">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-money-check-alt"></i>
+            </div>
+            <div>
+              <h3>رئيس الدار</h3>
+              <p>رئيس الدار ومساعده</p>
+            </div>
+          </div>
+
+          <div class="position-group">
+            <div class="position-item">
+              <label for="housePresidentSelect">رئيس الدار</label>
+              <div class="select-wrapper">
+                <select id="housePresidentSelect" class="member-select">
+                  <option value="">اختر رئيس الدار</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="housePresidentInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+
+            <div class="position-item">
+              <label for="assistantHousePresidentSelect"
+                >مساعد رئيس الدار</label
+              >
+              <div class="select-wrapper">
+                <select
+                  id="assistantHousePresidentSelect"
+                  class="member-select"
+                >
+                  <option value="">اختر المساعد</option>
+                  <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </select>
+                <div class="select-arrow">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div id="assistantHousePresidentInfo" class="member-info">
+                <!-- معلومات العضو المختار -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="committee-actions">
+      <!-- رئيس الدار (إضافة جديدة) -->
+      <div class="committee-actions treasury-actions">
         <div class="action-buttons">
           <button type="button" id="saveCommitteeBtn" class="btn-primary">
             <i class="fas fa-save"></i> حفظ التشكيل الحالي
@@ -326,10 +378,6 @@
         <div class="print-options">
           <button type="button" id="printCommitteeBtn" class="btn-secondary">
             <i class="fas fa-print"></i> طباعة التشكيل
-          </button>
-
-          <button type="button" id="exportCommitteeBtn" class="btn-secondary">
-            <i class="fas fa-file-pdf"></i> تصدير كـ PDF
           </button>
         </div>
       </div>

@@ -596,35 +596,6 @@ td {
 }
 
 /* الرسائل */
-.message {
-    display: none;
-    padding: 15px 20px;
-    border-radius: var(--border-radius);
-    margin-bottom: 20px;
-    animation: slideIn 0.3s ease-out;
-}
-
-.message.show {
-    display: block;
-}
-
-.message.success {
-    background-color: #e8f5e9;
-    border-right: 5px solid var(--secondary-color);
-    color: #2e7d32;
-}
-
-.message.error {
-    background-color: #ffebee;
-    border-right: 5px solid var(--danger-color);
-    color: #c62828;
-}
-
-.message.info {
-    background-color: #e3f2fd;
-    border-right: 5px solid var(--info-color);
-    color: #1565c0;
-}
 
 @keyframes slideIn {
     from {

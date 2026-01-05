@@ -340,28 +340,6 @@ table.dataTable tbody tr:hover {
     }
 }
 
-.message {
-    padding: 15px;
-    border-radius: var(--border-radius);
-    margin: 20px 0;
-    display: none;
-}
-
-.message.show {
-    display: block;
-}
-
-.message.success {
-    background-color: rgba(76, 175, 80, 0.15);
-    color: var(--secondary-color);
-    border-right: 4px solid var(--secondary-color);
-}
-
-.message.error {
-    background-color: rgba(244, 67, 54, 0.15);
-    color: var(--danger-color);
-    border-right: 4px solid var(--danger-color);
-}
 
 .modal-actions {
     display: flex;

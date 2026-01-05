@@ -1,6 +1,7 @@
 // صفحة لجنة إدارة الدار
 let allMembers = [];
 let currentCommittee = {
+  housePresident: null,
   president: null,
   vicePresident: null,
   secretaryGeneral: null,
@@ -86,6 +87,8 @@ function populateMemberSelects() {
     "treasurerSelect",
     "assistantTreasurerSelect",
     "committeeMemberSelect",
+    "housePresidentSelect",
+    "assistantHousePresidentSelect",
   ];
 
   // تعبئة كل قائمة منسدلة
@@ -130,6 +133,8 @@ function setupEventListeners() {
     "assistantSecretarySelect",
     "treasurerSelect",
     "assistantTreasurerSelect",
+    "housePresidentSelect",
+    "assistantHousePresidentSelect",
   ];
 
   positionSelects.forEach((selectId) => {
@@ -159,9 +164,6 @@ function setupEventListeners() {
   document
     .getElementById("printCommitteeBtn")
     .addEventListener("click", printCommittee);
-  document
-    .getElementById("exportCommitteeBtn")
-    .addEventListener("click", exportCommitteeAsPDF);
 
   // السماح بالإدخال بواسطة Enter
   document
@@ -375,6 +377,12 @@ function updateCurrentCommitteePosition(selectId, memberData) {
     case "assistantTreasurerSelect":
       currentCommittee.assistantTreasurer = memberData;
       break;
+    case "housePresidentSelect": // إضافة جديدة
+      currentCommittee.housePresident = memberData;
+      break;
+    case "assistantHousePresidentSelect": // إضافة جديدة
+      currentCommittee.assistantHousePresident = memberData;
+      break;
   }
 }
 
@@ -402,6 +410,16 @@ function updateCurrentCommittee() {
       title: "مساعد أمين المال",
       badgeClass: "badge-treasurer",
     },
+    {
+      key: "housePresident",
+      title: "رئيس الدار",
+      badgeClass: "badge-house-president",
+    },
+    {
+      key: "assistantHousePresident",
+      title: "مساعد رئيس الدار",
+      badgeClass: "badge-house-president",
+    }, // إضافة جديدة
   ];
 
   let hasData = false;
@@ -635,6 +653,11 @@ function updateSelectValues() {
     { key: "assistantSecretary", selectId: "assistantSecretarySelect" },
     { key: "treasurer", selectId: "treasurerSelect" },
     { key: "assistantTreasurer", selectId: "assistantTreasurerSelect" },
+    { key: "housePresident", selectId: "housePresidentSelect" }, // إضافة جديدة
+    {
+      key: "assistantHousePresident",
+      selectId: "assistantHousePresidentSelect",
+    }, // إضافة جديدة
   ];
 
   selectMappings.forEach((mapping) => {
@@ -671,6 +694,7 @@ function clearAllSelections() {
       assistantSecretary: null,
       treasurer: null,
       assistantTreasurer: null,
+      housePresident: null, // إضافة جديدة
       members: [],
     };
     selectedMembers.clear();
@@ -684,6 +708,8 @@ function clearAllSelections() {
       "treasurerSelect",
       "assistantTreasurerSelect",
       "committeeMemberSelect",
+      "housePresidentSelect", // إضافة جديدة
+      "assistantHousePresidentSelect", // إضافة جديدة
     ];
 
     selectIds.forEach((selectId) => {
@@ -752,34 +778,6 @@ function printCommittee() {
   location.reload();
 }
 
-// تصدير كـ PDF
-function exportCommitteeAsPDF() {
-  showMessage("جاري تحضير ملف PDF...", "info");
-
-  // استخدام html2pdf.js إذا كان متاحاً
-  if (typeof html2pdf !== "undefined") {
-    const element = document.querySelector(".committee-grid");
-    const opt = {
-      margin: [10, 10],
-      filename: `تشكيل_لجنة_دار_سلنارتي_${new Date().getTime()}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
-
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .then(() => {
-        showMessage("تم تصدير ملف PDF بنجاح", "success");
-      });
-  } else {
-    showMessage("مكتبة PDF غير متوفرة. جاري تحميل المكتبة...", "warning");
-    loadHTML2PDFLibrary();
-  }
-}
-
 // تحميل مكتبة html2pdf
 function loadHTML2PDFLibrary() {
   const script = document.createElement("script");
@@ -794,7 +792,7 @@ function loadHTML2PDFLibrary() {
 // توليد محتوى للطباعة
 function generatePrintContent() {
   let content = `
-        <div style="margin-bottom: 30px;">
+        <div style="margin-bottom: 15px;">
             <h2 style="color: #2c5aa0; border-bottom: 2px solid #2c5aa0; padding-bottom: 10px;">الرئاسة</h2>
             ${generatePositionHTML("رئيس اللجنة", currentCommittee.president)}
             ${generatePositionHTML(
@@ -803,7 +801,7 @@ function generatePrintContent() {
             )}
         </div>
         
-        <div style="margin-bottom: 30px;">
+        <div style="margin-bottom: 15px;">
             <h2 style="color: #28a745; border-bottom: 2px solid #28a745; padding-bottom: 10px;">الأمانة العامة</h2>
             ${generatePositionHTML(
               "الأمين العام",
@@ -815,52 +813,121 @@ function generatePrintContent() {
             )}
         </div>
         
-        <div style="margin-bottom: 30px;">
+        <div style="margin-bottom: 15px;">
             <h2 style="color: #17a2b8; border-bottom: 2px solid #17a2b8; padding-bottom: 10px;">أمانة المال</h2>
             ${generatePositionHTML("أمين المال", currentCommittee.treasurer)}
             ${generatePositionHTML(
               "مساعد أمين المال",
               currentCommittee.assistantTreasurer
             )}
+            </div>
+             <div style="margin-bottom: 15px;">
+            <h2 style="color: #f007bdff; border-bottom: 2px solid #f007bdff; padding-bottom: 10px;">شئون الدار</h2>
+            
+            ${generatePositionHTML(
+              "رئيس الدار",
+              currentCommittee.housePresident
+            )} 
+            ${generatePositionHTML(
+              "مساعد رئيس الدار",
+              currentCommittee.assistantHousePresident
+            )} <!-- إضافة جديدة -->
         </div>
     `;
 
   if (currentCommittee.members.length > 0) {
     content += `
-            <div style="margin-bottom: 30px;">
-                <h2 style="color: #6f42c1; border-bottom: 2px solid #6f42c1; padding-bottom: 10px;">أعضاء اللجنة</h2>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+        <div style="margin-bottom: 30px; page-break-inside: avoid;">
+            <h2 style="color: #6f42c1; border-bottom: 2px solid #6f42c1; padding-bottom: 10px; margin-bottom: 20px;">أعضاء اللجنة</h2>
+            <div style="overflow-x: auto;">
+                <table style="
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 14px;
+                    min-width: 600px;
+                    table-layout: fixed;
+                ">
                     <thead>
                         <tr style="background-color: #f8f9fa;">
-                            <th style="padding: 10px; border: 1px solid #ddd;">م</th>
-                            <th style="padding: 10px; border: 1px solid #ddd;">اسم العضو</th>
-                            <th style="padding: 10px; border: 1px solid #ddd;">رقم الجوال</th>
-                           
+                            <th style="
+                                padding: 12px 8px;
+                                text-align: center;
+                                border: 1px solid #ddd;
+                                background-color: #6f42c1;
+                                color: white;
+                                font-weight: bold;
+                                width: 8%;
+                                min-width: 50px;
+                            ">م</th>
+                            <th style="
+                                padding: 12px 8px;
+                                text-align: center;
+                                border: 1px solid #ddd;
+                                background-color: #6f42c1;
+                                color: white;
+                                font-weight: bold;
+                                width: 47%;
+                                min-width: 200px;
+                            ">اسم العضو</th>
+                            <th style="
+                                padding: 12px 8px;
+                                text-align: center;
+                                border: 1px solid #ddd;
+                                background-color: #6f42c1;
+                                color: white;
+                                font-weight: bold;
+                                width: 45%;
+                                min-width: 150px;
+                            ">رقم الجوال</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${currentCommittee.members
                           .map(
                             (member, index) => `
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #ddd;">${
-                                  index + 1
-                                }</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">${
-                                  member.name
-                                }</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">${
-                                  member.phone
-                                }</td>
-                                
-                            </tr>
-                        `
+                                <tr style="${
+                                  index % 2 === 0
+                                    ? "background-color: #f8f9fa;"
+                                    : "background-color: white;"
+                                }">
+                                    <td style="
+                                        padding: 10px 8px;
+                                        text-align: center;
+                                        border: 1px solid #ddd;
+                                        font-weight: bold;
+                                        color: #6f42c1;
+                                    ">${index + 1}</td>
+                                    <td style="
+                                        padding: 10px 8px;
+                                        text-align: right;
+                                        border: 1px solid #ddd;
+                                        font-size: 15px;
+                                        font-weight: 600;
+                                        color: #2c5aa0;
+                                    ">${member.name}</td>
+                                    <td style="
+                                        padding: 10px 8px;
+                                        text-align: center;
+                                        border: 1px solid #ddd;
+                                        font-family: monospace;
+                                        font-size: 13px;
+                                        direction: ltr;
+                                    ">${member.phone}</td>
+                                </tr>
+                            `
                           )
                           .join("")}
                     </tbody>
                 </table>
             </div>
-        `;
+
+            <div style="margin-top: 15px; text-align: center; color: #6c757d; font-size: 12px;">
+                <p>إجمالي عدد الأعضاء: <strong>${
+                  currentCommittee.members.length
+                }</strong> عضو</p>
+            </div>
+        </div>
+    `;
   }
 
   content += `
@@ -882,7 +949,7 @@ function generatePositionHTML(title, member) {
             <h3 style="margin: 0 0 10px 0;">${title}</h3>
             <p style="margin: 5px 0;"><strong>الاسم:</strong> ${member.name}</p>
             <p style="margin: 5px 0;"><strong>رقم الجوال:</strong> ${member.phone}</p>
-           
+
         </div>
     `;
 }

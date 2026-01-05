@@ -3,25 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>دار أبناء سلنارتي - شهادات التقدير</title>
+    <title>منشئ شهادات تقديرية</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="style/style.css" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@600;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ملف الأنماط الخاص بنا -->
     <link rel="stylesheet" href="style/certificates.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="style/style.css" />
   </head>
 
   <body>
@@ -29,11 +33,13 @@
       <div class="container">
         <div class="logo-container">
           <div class="logo">
-            <i class="fas fa-award"></i>
+            <i class="fas fa-certificate"></i>
           </div>
           <div>
             <h1>دار أبناء سلنارتي بالرياض</h1>
-            <p class="subtitle">نظام إصدار شهادات التقدير للأعضاء المميزين</p>
+            <p class="subtitle">
+              خدمة الاستعلام عن حالة الاشتراكات السنوية للأعضاء
+            </p>
           </div>
         </div>
 
@@ -56,9 +62,8 @@
       </div>
     </header>
 
-    <main class="container">
-      <div id="message" class="message"></div>
-
+    <div class="container">
+      <!-- إعدادات الشهادة -->
       <div class="certificates-header">
         <h2>
           <i class="fas fa-certificate"></i> شهادات التقدير للأعضاء المميزين
@@ -78,287 +83,246 @@
           <li>يمكنك طباعة الشهادات أو حفظها كصور</li>
         </ul>
       </div>
-
-      <!-- لوحة التحكم -->
-      <div class="control-panel">
-        <h3><i class="fas fa-sliders-h"></i> إعدادات الشهادات</h3>
-
-        <div class="controls-grid">
-          <div class="control-group">
-            <h4><i class="fas fa-filter"></i> تصفية الأعضاء</h4>
-            <div class="filter-options">
-              <div class="filter-item">
-                <input
-                  type="radio"
-                  id="filterPaid"
-                  name="memberFilter"
-                  value="paid"
-                  checked
-                />
-                <label for="filterPaid">الأعضاء المسددون كاملاً</label>
-              </div>
-              <div class="filter-item">
-                <input
-                  type="radio"
-                  id="filterPartial"
-                  name="memberFilter"
-                  value="partial"
-                />
-                <label for="filterPartial">الأعضاء المسددون جزئياً</label>
-              </div>
-              <div class="filter-item">
-                <input
-                  type="radio"
-                  id="filterAll"
-                  name="memberFilter"
-                  value="all"
-                />
-                <label for="filterAll">جميع الأعضاء</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <h4><i class="fas fa-paint-brush"></i> تصميم الشهادة</h4>
-            <div class="design-options">
-              <div class="design-item" data-design="classic">
-                <div class="design-preview classic-design"></div>
-                <span>كلاسيكي</span>
-              </div>
-              <div class="design-item" data-design="modern">
-                <div class="design-preview modern-design"></div>
-                <span>حديث</span>
-              </div>
-              <div class="design-item" data-design="golden">
-                <div class="design-preview golden-design"></div>
-                <span>ذهبي</span>
-              </div>
-              <div class="design-item" data-design="elegant">
-                <div class="design-preview elegant-design"></div>
-                <span>أنيق</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <h4><i class="fas fa-text-height"></i> نص الشهادة</h4>
-            <div class="text-options">
-              <div class="form-group">
-                <label for="certificateTitle">عنوان الشهادة</label>
-                <input
-                  type="text"
-                  id="certificateTitle"
-                  value="شهادة تقدير"
-                  placeholder="أدخل عنوان الشهادة"
-                />
-              </div>
-              <div class="form-group">
-                <label for="certificateText">نص الشهادة</label>
-                <textarea
-                  id="certificateText"
-                  rows="3"
-                  placeholder="أدخل نص الشهادة"
-                >
-نظراً لالتزامه بسداد اشتراكاته بانتظام، وحرصه على مصلحة دار أبناء سلنارتي، يُقدم هذا التقدير تقديراً لجهوده وتعاونهم المتميز مع إدارة الدار.</textarea
-                >
-              </div>
-            </div>
-          </div>
+      <div class="form-section">
+        <label>اتجاه الشهادة:</label>
+        <div class="orientation-options">
+          <label>
+            <input type="radio" name="orientation" value="landscape" checked />
+            أفقي
+          </label>
         </div>
 
-        <div class="action-buttons">
-          <button type="button" id="loadMembersBtn" class="btn-primary">
-            <i class="fas fa-users"></i> تحميل الأعضاء المميزين
-          </button>
-          <button type="button" id="generateAllBtn" class="btn-success">
-            <i class="fas fa-certificate"></i> إنشاء شهادات للكل
-          </button>
-          <button type="button" id="resetAllBtn" class="btn-secondary">
-            <i class="fas fa-redo"></i> إعادة تعيين
-          </button>
+        <label>اختر خلفية الشهادة:</label>
+        <div class="background-thumbnails" id="background-thumbnails">
+          <img src="backgrounds/elegant.png" alt="أنيق" data-bg="elegant.png" />
+          <img src="backgrounds/gold.png" alt="ذهبي" data-bg="gold.png" />
+          <img src="backgrounds/marble.png" alt="رخامي" data-bg="marble.png" />
+          <img src="backgrounds/paper.png" alt="ورقي" data-bg="paper.png" />
         </div>
+        <input type="hidden" id="selected-bg-image" value="" />
       </div>
 
-      <!-- قائمة الأعضاء المميزين -->
-      <div class="members-list-section">
-        <h3><i class="fas fa-user-check"></i> الأعضاء المميزين (المسددين)</h3>
+      <!-- الشهادة -->
+      <div class="container my-4">
+        <h1 class="text-center mb-4">منشئ شهادات تقديرية</h1>
 
-        <div class="members-stats">
-          <div class="stat-card">
-            <i class="fas fa-user-check"></i>
-            <div class="stat-info">
-              <span>الأعضاء المسددون</span>
-              <strong id="paidMembersCount">0</strong>
+        <div class="row">
+          <!-- إعدادات النص -->
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <i class="fas fa-edit"></i> إعدادات نص الشهادة
+              </div>
+
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="name" class="form-label">الاسم الكامل:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="أدخل إسم العضو"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="certificateTitle" class="form-label"
+                    >عنوان الشهادة</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="certificateTitle"
+                    value="شهادة تقدير"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="certificateSubtitle" class="form-label"
+                    >عنوان الفرع</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="certificateSubtitle"
+                    value="تـمـنـحـهـا إدارة دار أبناء سلنارتي بالرياض"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="certificateText" class="form-label"
+                    >نص الشهادة</label
+                  >
+                  <textarea class="form-control" id="certificateText" rows="4">
+تقديراً لالتزامكم الـمثالي بـسداد الاشتراكات بشكـل مـنتظم، ودعمكم المادي المستمر الذي يمثل عصب استمرارية رســالـتـنا الإنـسـانـية. ونـخص بالـشكر حرصـكم الواضـح على مصـلحة الـدار ومساهماتكم الفاعلة في دعم برامجها وأنشطتها. إن هذا التعاون المتميز يمثل نموذجاً يُحتذى به في الشراكة المجتمعية الفاعلة، ونؤكد لكم أن جهودكم محل تقدير واحترام جميع المستفيدين.
+</textarea
+                  >
+                </div>
+                <!-- قسم تاريخ -->
+                <div class="mb-3">
+                  <label for="certificateDate" class="form-label"
+                    >تاريخ الشهادة</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="certificateDate"
+                  />
+                </div>
+              </div>
+              <!-- قسم الختم -->
+              <div class="col-lg-6" id="stampSection">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-signature"></i> نص الختم (نصي)
+                  </div>
+                  <!-- <label for="stampText" class="form-label">نص الختم (نصي)</label></div> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="stampText"
+                    placeholder="مثال: ختم الإدارة"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div class="stat-card">
-            <i class="fas fa-user-clock"></i>
-            <div class="stat-info">
-              <span>المسددون جزئياً</span>
-              <strong id="partialMembersCount">0</strong>
+
+          <!-- التوقيعات والختم + أدوات -->
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <i class="fas fa-signature"></i> التوقيعات والختم
+              </div>
+              <div class="card-body">
+                <!-- قسم الرئيس -->
+                <div class="row mb-3" id="chairmanSection">
+                  <div class="col-md-6">
+                    <label for="chairmanTitle" class="form-label"
+                      >منصب الرئيس</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="chairmanTitle"
+                      value="رئيس لجنة دار أبناء سلنارتي"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="chairmanName" class="form-label"
+                      >اسم الرئيس</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="chairmanName"
+                      value="جمال يوسف عبد الدائم"
+                    />
+                  </div>
+                  <!-- توقيع الرئيس -->
+                  <div class="mb-3">
+                    <label
+                      for="chairmanSignatureUpload"
+                      id="chairmanSignatureUploadLabel"
+                      class="form-label"
+                      >صورة توقيع الرئيس (اختياري)</label
+                    >
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="chairmanSignatureUpload"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+
+                <!-- قسم أمين الصندوق -->
+                <div class="row mb-3" id="treasurerSection">
+                  <div class="col-md-6">
+                    <label for="treasurerTitle" class="form-label"
+                      >منصب أمين الصندوق</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="treasurerTitle"
+                      value="أمين مال دار أبناء سلنارتي"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="treasurerName" class="form-label"
+                      >اسم أمين الصندوق</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="treasurerName"
+                      value="فائز فرح سعيد"
+                    />
+                  </div>
+                  <!-- توقيع أمين الصندوق -->
+                  <div class="mb-3">
+                    <label
+                      for="treasurerSignatureUpload"
+                      id="treasurerSignatureUploadLabel"
+                      class="form-label"
+                      >صورة توقيع أمين الصندوق (اختياري)</label
+                    >
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="treasurerSignatureUpload"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+
+                <!-- لا حاجة لزر "إضافة ختم" لأن الختم يظهر تلقائيًا عند الكتابة -->
+                <!-- قسم الختم -->
+              </div>
             </div>
-          </div>
-          <div class="stat-card">
-            <i class="fas fa-certificate"></i>
-            <div class="stat-info">
-              <span>شهادات مُنشأة</span>
-              <strong id="certificatesCount">0</strong>
+            <!-- أزرار التصميم -->
+            <div class="card mt-3">
+              <div class="card-header">
+                <i class="fas fa-tools"></i> أدوات التصميم
+              </div>
+              <div class="card-body">
+                <div class="d-grid gap-2">
+                  <button id="generateBtn" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> إنشاء الشهادة
+                  </button>
+
+                  <button
+                    id="downloadBtn"
+                    class="btn btn-info"
+                    style="display: none"
+                    alt="downloadBtn"
+                  >
+                    <i class="fas fa-download"></i> تنزيل كصورة و طباعة
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="members-grid" id="membersGrid">
-          <!-- سيتم تعبئتها بالجافاسكريبت -->
-        </div>
-      </div>
-
-      <!-- معاينة الشهادات -->
-      <div class="certificates-preview-section">
-        <h3><i class="fas fa-eye"></i> معاينة الشهادات</h3>
-
-        <div class="preview-controls">
-          <button type="button" id="prevCertBtn" class="btn-secondary">
-            <i class="fas fa-chevron-right"></i> السابقة
-          </button>
-          <span id="currentCertInfo">الشهادة 1 من 0</span>
-          <button type="button" id="nextCertBtn" class="btn-secondary">
-            التالية <i class="fas fa-chevron-left"></i>
-          </button>
-        </div>
-
-        <div class="certificate-container" id="certificateContainer">
-          <!-- سيتم تعبئتها بالجافاسكريبت -->
-          <div class="empty-state">
-            <i class="fas fa-certificate fa-3x"></i>
-            <h4>لم يتم إنشاء أي شهادات بعد</h4>
-            <p>اختر أعضاءً من القائمة أعلاه وأنشئ شهادات تقدير لهم</p>
-          </div>
-        </div>
-
-        <div class="certificate-actions">
-          <button type="button" id="printCertBtn" class="btn-primary">
-            <i class="fas fa-print"></i> طباعة الشهادة الحالية
-          </button>
-          <button type="button" id="downloadCertBtn" class="btn-success">
-            <i class="fas fa-download"></i> حفظ كصورة
-          </button>
-          <button type="button" id="printAllBtn" class="btn-secondary">
-            <i class="fas fa-print"></i> طباعة جميع الشهادات
-          </button>
-          <button type="button" id="saveAllBtn" class="btn-secondary">
-            <i class="fas fa-save"></i> حفظ الكل كـ PDF
-          </button>
-        </div>
-      </div>
-
-      <!-- إعدادات الطباعة -->
-      <div class="print-settings">
-        <h3><i class="fas fa-print"></i> إعدادات الطباعة</h3>
-
-        <div class="settings-grid">
-          <div class="setting-group">
-            <label for="paperSize">حجم الورق</label>
-            <select id="paperSize">
-              <option value="A4">A4</option>
-              <option value="A5">A5</option>
-              <option value="Letter">Letter</option>
-            </select>
-          </div>
-
-          <div class="setting-group">
-            <label for="printQuality">جودة الطباعة</label>
-            <select id="printQuality">
-              <option value="high">عالية</option>
-              <option value="normal" selected>عادية</option>
-              <option value="low">منخفضة</option>
-            </select>
-          </div>
-
-          <div class="setting-group">
-            <label for="includeBorder">إطار الشهادة</label>
-            <select id="includeBorder">
-              <option value="yes">نعم</option>
-              <option value="no">لا</option>
-            </select>
-          </div>
-
-          <div class="setting-group">
-            <label for="certificateDate">تاريخ الشهادة</label>
-            <input type="date" id="certificateDate" />
-          </div>
-        </div>
-      </div>
-
-      <!-- توقيعات -->
-      <div class="signatures-section">
-        <h3><i class="fas fa-signature"></i> إضافة توقيعات</h3>
-
-        <div class="signatures-grid">
-          <div class="signature-item">
-            <h4>رئيس اللجنة</h4>
-            <div class="signature-input">
-              <input
-                type="text"
-                id="chairmanName"
-                placeholder="اسم رئيس اللجنة"
-                value="رئيس لجنة دار أبناء سلنارتي"
-              />
-              <input
-                type="text"
-                id="chairmanTitle"
-                placeholder="المنصب"
-                value="رئيس اللجنة"
-              />
-            </div>
-          </div>
-
-          <div class="signature-item">
-            <h4>أمين المال</h4>
-            <div class="signature-input">
-              <input
-                type="text"
-                id="treasurerName"
-                placeholder="اسم أمين المال"
-                value="أمين مال دار أبناء سلنارتي"
-              />
-              <input
-                type="text"
-                id="treasurerTitle"
-                placeholder="المنصب"
-                value="أمين المال"
-              />
-            </div>
-          </div>
-
-          <div class="signature-item">
-            <h4>ختم الدار</h4>
-            <div class="stamp-input">
-              <input
-                type="text"
-                id="stampText"
-                placeholder="نص الختم"
-                value="دار أبناء سلنارتي بالرياض"
-              />
-              <button type="button" id="addStampBtn" class="btn-secondary">
-                <i class="fas fa-stamp"></i> إضافة ختم
-              </button>
-            </div>
+        <!-- الشهادة -->
+        <div class="certificate mt-4" id="certificate">
+          <img id="cert-bg" src="" alt="خلفية الشهادة" />
+          <div class="cert-content" id="certContent">
+            <!-- سيتم تعبئته عبر JavaScript -->
           </div>
         </div>
       </div>
-    </main>
-
+    </div>
     <footer>
       <div class="container">
         <p>جميع الحقوق محفوظة © دار أبناء سلنارتي بالرياض 2024</p>
-        <p>نظام شهادات التقدير | الإصدار 1.0</p>
+        <p>
+          للاستفسارات التقنية:
+          <a href="mailto:salanarty@gmail.com">salanarty@gmail.com</a> | هاتف
+          الدعم: <a href="tel:+966502191635">+966502191635</a>
+        </p>
       </div>
     </footer>
-
-    <!-- مكتبات خارجية -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="db/supabase-config.js"></script>
     <script src="db/supabase-init.js"></script>
